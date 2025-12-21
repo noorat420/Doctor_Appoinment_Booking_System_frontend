@@ -949,6 +949,26 @@ body {
   background: var(--primary-100);
 }
 
+.mobile-logout-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: var(--danger-bg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--danger);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-logout-btn:hover,
+.mobile-logout-btn:active {
+  background: var(--danger);
+  color: white;
+}
+
 /* Mobile Sidebar Overlay */
 .sidebar-overlay {
   display: none;
@@ -1031,6 +1051,18 @@ body {
   }
   
   .sidebar.open .sidebar-user {
+    justify-content: flex-start;
+  }
+  
+  .sidebar.open .btn-logout span {
+    display: inline;
+  }
+  
+  .sidebar .btn-logout span {
+    display: none;
+  }
+  
+  .sidebar.open .btn-logout {
     justify-content: flex-start;
   }
   
