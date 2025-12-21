@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://appointment-booking-api-fpmy.onrender.com",
+  baseURL: import.meta.env.VITE_API_URL || "https://api.docappointments.in",
 });
 
 api.interceptors.request.use(
