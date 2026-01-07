@@ -249,7 +249,7 @@ function DoctorProfile() {
           )}
 
           <form onSubmit={handleSubmit}>
-            {/* Read-only fields */}
+      
             <div className="form-group">
               <label className="form-label">Full Name</label>
               <input

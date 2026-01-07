@@ -36,8 +36,6 @@ function ManageSlots() {
       setLoading(false);
     }
   };
-
-  // Get minimum date (today)
   const today = new Date().toISOString().split("T")[0];
 
   return (

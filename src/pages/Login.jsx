@@ -10,24 +10,26 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    try {
-      const { role } = await login(email, password);
+  try {
+    const { role } = await login(email, password);
 
-      if (role === "doctor") {
-        navigate("/doctor/appointments");
-      } else {
-        navigate("/patient/doctors");
-      }
-    } catch (err) {
-      setError("Invalid email or password");
-    } finally {
-      setLoading(false);
+    if (role === "doctor") {
+      navigate("/doctor/appointments");
+    } else {
+      navigate("/patient/doctors");
     }
-  };
+  } catch (err) {
+   
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="auth-container">
