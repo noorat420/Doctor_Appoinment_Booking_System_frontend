@@ -13,7 +13,6 @@ function Register() {
 
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
-
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -81,169 +80,146 @@ function Register() {
     }
 
     if (data.role === "doctor" && !data.invitation_code.trim()) {
-      newErrors.invitation_code =
-        "Invitation code is required for doctor registration";
+      newErrors.invitation_code = "Invitation code is required for doctor registration";
     }
 
     return newErrors;
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <div className="auth-header">
-          <div className="auth-logo">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              width="28"
-              height="28"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-              />
-            </svg>
-          </div>
-          <h1 className="auth-title">Create Account</h1>
-          <p className="auth-subtitle">Join DocAppointment today</p>
-        </div>
-
-        {serverError && <div className="alert alert-danger">{serverError}</div>}
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Full Name</label>
-            <input
-              type="text"
-              name="name"
-              className={`form-control ${errors.name ? "is-invalid" : ""}`}
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && (
-              <div className="text-danger" style={{ fontSize: 13 }}>
-                {errors.name}
-              </div>
-            )}
+    <div className="min-vh-100 d-flex align-items-center justify-content-center p-3">
+      <div className="card shadow-lg border-0" style={{ maxWidth: '420px', width: '100%' }}>
+        <div className="card-body p-4 p-md-5">
+          <div className="text-center mb-4">
+            <div className="bg-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-3" style={{ width: 56, height: 56 }}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="28" height="28" style={{ color: 'white' }}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+            </div>
+            <h1 className="h3 fw-bold mb-2">Create Account</h1>
+            <p className="text-muted">Join DocAppointment today</p>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input
-              type="email"
-              name="email"
-              className={`form-control ${errors.email ? "is-invalid" : ""}`}
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {errors.email && (
-              <div className="text-danger" style={{ fontSize: 13 }}>
-                {errors.email}
-              </div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              className={`form-control ${errors.password ? "is-invalid" : ""}`}
-              placeholder="Create a password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              minLength={6}
-            />
-            {errors.password && (
-              <div className="text-danger" style={{ fontSize: 13 }}>
-                {errors.password}
-              </div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">I am a</label>
-            <select
-              name="role"
-              className={`form-control ${errors.role ? "is-invalid" : ""}`}
-              value={formData.role}
-              onChange={handleChange}
-            >
-
-              <option value="patient">Patient</option>
-              <option value="doctor">Doctor</option>
-            </select>
-            {errors.role && (
-              <div className="text-danger" style={{ fontSize: 13 }}>
-                {errors.role}
-              </div>
-            )}
-          </div>
-
-          {/* Doctor Invitation Code - Only shown when doctor is selected */}
-          {isDoctor && (
-            <div className="form-group">
-              <label className="form-label">
-                Doctor Invitation Code
-                <span style={{ color: "var(--danger)", marginLeft: 4 }}>*</span>
-              </label>
-              <input
-                type="text"
-                name="invitation_code"
-                className={`form-control ${errors.invitation_code ? "is-invalid" : ""}`}
-                placeholder="Enter your invitation code"
-                value={formData.invitation_code}
-                onChange={handleChange}
-                required
-              />
-              {errors.invitation_code && (
-                <div className="text-danger" style={{ fontSize: 13 }}>
-                  {errors.invitation_code}
-                </div>
-              )}
-              <small
-                style={{
-                  color: "var(--text-secondary)",
-                  fontSize: 12,
-                  marginTop: 4,
-                  display: "block",
-                }}
-              >
-                Contact admin to get an invitation code for doctor registration
-              </small>
+          {serverError && (
+            <div className="alert alert-danger" role="alert">
+              {serverError}
             </div>
           )}
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ width: "100%" }}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <div
-                  className="spinner"
-                  style={{ width: 16, height: 16, borderWidth: 2 }}
-                ></div>
-                Creating account...
-              </>
-            ) : (
-              "Create Account"
-            )}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label">Full Name</label>
+              <input
+                type="text"
+                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
+            </div>
 
-        <div className="auth-footer">
-          Already have an account? <Link to="/login">Sign in</Link>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email Address</label>
+              <input
+                type="email"
+                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input
+                type="password"
+                className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                id="password"
+                name="password"
+                placeholder="Create a password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength={6}
+              />
+              {errors.password && (
+                <div className="invalid-feedback">{errors.password}</div>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="role" className="form-label">I am a</label>
+              <select
+                className={`form-select ${errors.role ? 'is-invalid' : ''}`}
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+              >
+                <option value="patient">Patient</option>
+                <option value="doctor">Doctor</option>
+              </select>
+              {errors.role && (
+                <div className="invalid-feedback">{errors.role}</div>
+              )}
+            </div>
+
+            {isDoctor && (
+              <div className="mb-3">
+                <label htmlFor="invitation_code" className="form-label">
+                  Doctor Invitation Code <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.invitation_code ? 'is-invalid' : ''}`}
+                  id="invitation_code"
+                  name="invitation_code"
+                  placeholder="Enter your invitation code"
+                  value={formData.invitation_code}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.invitation_code && (
+                  <div className="invalid-feedback">{errors.invitation_code}</div>
+                )}
+                <small className="form-text text-muted">
+                  Contact admin to get an invitation code for doctor registration
+                </small>
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+              disabled={loading}
+              style={{ backgroundColor: '#7C3AED', borderColor: '#7C3AED' }}
+            >
+              {loading ? (
+                <>
+                  <div className="spinner"></div>
+                  Creating account...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          </form>
+
+          <div className="text-center mt-4">
+            <p className="text-muted mb-0">
+              Already have an account? <Link to="/login" style={{ color: '#7C3AED' }}>Sign in</Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

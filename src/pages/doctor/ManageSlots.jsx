@@ -36,24 +36,23 @@ function ManageSlots() {
       setLoading(false);
     }
   };
+  
   const today = new Date().toISOString().split("T")[0];
 
   return (
     <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Manage Availability</h1>
-          <p className="page-subtitle">Create time slots for patient appointments</p>
-        </div>
+      <div className="mb-4 ">
+        <h1 className="h2 fw-bold mb-1">Manage Availability</h1>
+        <p className="text-muted">Create time slots for patient appointments</p>
       </div>
 
-      <div className="card" style={{ maxWidth: 600 }}>
+      <div className="card " style={{ maxWidth: 800 }}>
         <div className="card-header">
-          <h3 className="card-title">Create New Slot</h3>
+          <h5 className="mb-0 p-2">Create New Slot</h5>
         </div>
         <div className="card-body">
           {success && (
-            <div className="alert alert-success" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div className="alert alert-success d-flex align-items-center gap-2" role="alert">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="18" height="18">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -62,10 +61,11 @@ function ManageSlots() {
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label className="form-label">Date</label>
+            <div className="mb-3">
+              <label htmlFor="date" className="form-label">Date</label>
               <input
                 type="date"
+                id="date"
                 name="date"
                 className="form-control"
                 value={formData.date}
@@ -75,11 +75,12 @@ function ManageSlots() {
               />
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Start Time</label>
+            <div className="row g-3 mb-3">
+              <div className="col-12 col-md-6">
+                <label htmlFor="start_time" className="form-label">Start Time</label>
                 <input
                   type="time"
+                  id="start_time"
                   name="start_time"
                   className="form-control"
                   value={formData.start_time}
@@ -88,10 +89,11 @@ function ManageSlots() {
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">End Time</label>
+              <div className="col-12 col-md-6">
+                <label htmlFor="end_time" className="form-label">End Time</label>
                 <input
                   type="time"
+                  id="end_time"
                   name="end_time"
                   className="form-control"
                   value={formData.end_time}
@@ -103,9 +105,9 @@ function ManageSlots() {
 
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
               disabled={loading}
-              style={{ width: "100%" }}
+              style={{ backgroundColor: '#7C3AED', borderColor: '#7C3AED' }}
             >
               {loading ? (
                 <>
@@ -126,17 +128,17 @@ function ManageSlots() {
       </div>
 
       {/* Tips Section */}
-      <div className="card" style={{ maxWidth: 600, marginTop: 24 }}>
+      <div className="card  mt-3" style={{ maxWidth: 800 }}>
         <div className="card-body">
-          <h4 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="20" height="20" style={{ color: "var(--primary)" }}>
+          <h5 className="d-flex align-items-center gap-2 mb-3" style={{ color: '#7C3AED' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="20" height="20">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
             </svg>
             Tips
-          </h4>
-          <ul style={{ color: "var(--text-secondary)", fontSize: 14, paddingLeft: 20 }}>
-            <li style={{ marginBottom: 8 }}>Create slots for times when you're available for consultations</li>
-            <li style={{ marginBottom: 8 }}>Patients will be able to book these slots from their dashboard</li>
+          </h5>
+          <ul className="text-muted small mb-0">
+            <li className="mb-2">Create slots for times when you're available for consultations</li>
+            <li className="mb-2">Patients will be able to book these slots from their dashboard</li>
             <li>You can cancel booked appointments from the Appointments page</li>
           </ul>
         </div>
@@ -146,4 +148,3 @@ function ManageSlots() {
 }
 
 export default ManageSlots;
-

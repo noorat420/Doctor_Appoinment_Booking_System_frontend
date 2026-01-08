@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { getDoctorProfile, updateDoctorProfile, deleteDoctorAccount } from "../../services/doctorService";
 import { logout } from "../../services/authService";
+import AppModal from "../../components/AppModal";
 
 function DoctorProfile() {
   const navigate = useNavigate();
@@ -16,47 +16,20 @@ function DoctorProfile() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
-  
-  // Delete modal state
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleting, setDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   const designationOptions = [
-    "Dr.",
-    "MBBS",
-    "MD",
-    "MS",
-    "BDS",
-    "MDS",
-    "BAMS",
-    "BHMS",
-    "DM",
-    "MCh",
-    "DNB",
-    "PhD"
+    "Dr.", "MBBS", "MD", "MS", "BDS", "MDS", "BAMS", "BHMS", "DM", "MCh", "DNB", "PhD"
   ];
 
   const specializationOptions = [
-    "General Practitioner",
-    "Cardiologist",
-    "Dermatologist",
-    "Endocrinologist",
-    "Gastroenterologist",
-    "Neurologist",
-    "Oncologist",
-    "Ophthalmologist",
-    "Orthopedic Surgeon",
-    "Pediatrician",
-    "Psychiatrist",
-    "Pulmonologist",
-    "Radiologist",
-    "Urologist",
-    "Gynecologist",
-    "ENT Specialist",
-    "Dentist",
-    "Physiotherapist",
-    "Other"
+    "General Practitioner", "Cardiologist", "Dermatologist", "Endocrinologist",
+    "Gastroenterologist", "Neurologist", "Oncologist", "Ophthalmologist",
+    "Orthopedic Surgeon", "Pediatrician", "Psychiatrist", "Pulmonologist",
+    "Radiologist", "Urologist", "Gynecologist", "ENT Specialist", "Dentist",
+    "Physiotherapist", "Other"
   ];
 
   useEffect(() => {
@@ -107,6 +80,11 @@ function DoctorProfile() {
     }
   };
 
+  const openDeleteModal = () => {
+    setConfirmText("");
+    setShowDeleteModal(true);
+  };
+
   const handleDeleteAccount = async () => {
     if (confirmText !== "DELETE") return;
     
@@ -124,117 +102,55 @@ function DoctorProfile() {
     }
   };
 
-  // Delete Confirmation Modal
-  const DeleteModal = () => {
-    if (!showDeleteModal) return null;
-
-    return createPortal(
-      <div className="custom-modal-overlay" onClick={() => setShowDeleteModal(false)}>
-        <div className="custom-modal" onClick={(e) => e.stopPropagation()}>
-          <div className="custom-modal-header">
-            <h2 className="custom-modal-title" style={{ color: "var(--danger)" }}>
-              Delete Account
-            </h2>
-            <button className="custom-modal-close" onClick={() => setShowDeleteModal(false)}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="18" height="18">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div className="custom-modal-body">
-            <div style={{ textAlign: "center", marginBottom: 24 }}>
-              <div style={{ 
-                width: 64, 
-                height: 64, 
-                background: "var(--danger-bg)", 
-                borderRadius: "50%", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                margin: "0 auto 16px"
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="32" height="32" style={{ color: "var(--danger)" }}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                </svg>
-              </div>
-              <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>Are you sure?</h3>
-              <p style={{ color: "var(--text-secondary)", fontSize: 14 }}>
-                This action cannot be undone. This will permanently delete your account and remove all your data including appointments and availability slots.
-              </p>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                Type <strong>DELETE</strong> to confirm
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Type DELETE"
-                value={confirmText}
-                onChange={(e) => setConfirmText(e.target.value)}
-                style={{ borderColor: confirmText === "DELETE" ? "var(--danger)" : undefined }}
-              />
-            </div>
-
-            <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={() => setShowDeleteModal(false)}
-                style={{ flex: 1 }}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleDeleteAccount}
-                disabled={confirmText !== "DELETE" || deleting}
-                style={{ flex: 1 }}
-              >
-                {deleting ? (
-                  <>
-                    <div className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }}></div>
-                    Deleting...
-                  </>
-                ) : (
-                  "Delete My Account"
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>,
-      document.body
-    );
-  };
-
   if (loading) {
     return (
-      <div className="loading">
-        <div className="spinner"></div>
-        Loading profile...
+      <div className="text-center py-5">
+        <div className="spinner mx-auto mb-2"></div>
+        <p className="text-muted">Loading profile...</p>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">My Profile</h1>
-          <p className="page-subtitle">Update your professional information</p>
+      <div className="mb-3">
+        <h1 className="h3 fw-bold mb-1">My Profile</h1>
+        <p className="text-muted small">Update your professional information</p>
+      </div>
+
+      {/* Preview Card */}
+      <div className="card  mt-3" style={{ maxWidth: 600 }}>
+        <div className="card-header py-2">
+          <h6 className="mb-0">Profile Preview</h6>
+        </div>
+        <div className="card-body p-3">
+          <div className="d-flex align-items-center gap-2">
+            <div className="avatar-gradient rounded-circle d-flex align-items-center justify-content-center text-white fw-semibold flex-shrink-0" style={{ width: 56, height: 56, fontSize: '1.2rem' }}>
+              {profile.name ? profile.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "DR"}
+            </div>
+            <div>
+              <h6 className="mb-1" style={{ fontSize: '0.95rem' }}>Dr. {profile.name || "Your Name"}</h6>
+              <p className="text-primary fw-medium mb-1" style={{ color: '#7C3AED', fontSize: '0.75rem' }}>
+                {profile.designation || "Designation not set"}
+              </p>
+              <p className="text-muted mb-1" style={{ fontSize: '0.75rem' }}>
+                {profile.specialization || "Specialization not set"}
+              </p>
+              <p className="text-muted mb-0" style={{ fontSize: '0.7rem' }}>
+                {profile.email}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="card" style={{ maxWidth: 600 }}>
-        <div className="card-header">
-          <h3 className="card-title">Profile Information</h3>
+      <div className="card  mt-3" style={{ maxWidth: 600 }}>
+        <div className="card-header py-2">
+          <h6 className="mb-0">Profile Information</h6>
         </div>
-        <div className="card-body">
+        <div className="card-body p-3">
           {success && (
-            <div className="alert alert-success" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div className="alert alert-success d-flex align-items-center gap-2" role="alert">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="18" height="18">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -243,17 +159,17 @@ function DoctorProfile() {
           )}
 
           {error && (
-            <div className="alert alert-danger">
+            <div className="alert alert-danger" role="alert">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit}>
-      
-            <div className="form-group">
-              <label className="form-label">Full Name</label>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label">Full Name</label>
               <input
                 type="text"
+                id="name"
                 className="form-control"
                 value={profile.name}
                 disabled
@@ -261,10 +177,11 @@ function DoctorProfile() {
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Email</label>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email</label>
               <input
                 type="email"
+                id="email"
                 className="form-control"
                 value={profile.email}
                 disabled
@@ -272,12 +189,12 @@ function DoctorProfile() {
               />
             </div>
 
-            {/* Editable fields */}
-            <div className="form-group">
-              <label className="form-label">Designation</label>
+            <div className="mb-3">
+              <label htmlFor="designation" className="form-label">Designation</label>
               <select
+                id="designation"
                 name="designation"
-                className="form-control"
+                className="form-select"
                 value={profile.designation}
                 onChange={handleChange}
               >
@@ -286,16 +203,17 @@ function DoctorProfile() {
                   <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>
-              <small style={{ color: "var(--text-secondary)", fontSize: 12, marginTop: 4, display: "block" }}>
+              <small className="form-text text-muted">
                 Your medical degree or title
               </small>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Specialization</label>
+            <div className="mb-3">
+              <label htmlFor="specialization" className="form-label">Specialization</label>
               <select
+                id="specialization"
                 name="specialization"
-                className="form-control"
+                className="form-select"
                 value={profile.specialization}
                 onChange={handleChange}
               >
@@ -304,16 +222,16 @@ function DoctorProfile() {
                   <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>
-              <small style={{ color: "var(--text-secondary)", fontSize: 12, marginTop: 4, display: "block" }}>
+              <small className="form-text text-muted">
                 Your area of medical expertise
               </small>
             </div>
 
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
               disabled={saving}
-              style={{ width: "100%" }}
+              style={{ backgroundColor: '#7C3AED', borderColor: '#7C3AED' }}
             >
               {saving ? (
                 <>
@@ -333,49 +251,22 @@ function DoctorProfile() {
         </div>
       </div>
 
-      {/* Preview Card */}
-      <div className="card" style={{ maxWidth: 600, marginTop: 24 }}>
-        <div className="card-header">
-          <h3 className="card-title">Profile Preview</h3>
-        </div>
-        <div className="card-body">
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div className="doctor-avatar" style={{ width: 64, height: 64, fontSize: 24 }}>
-              {profile.name ? profile.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "DR"}
-            </div>
-            <div>
-              <h3 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>
-                Dr. {profile.name || "Your Name"}
-              </h3>
-              <p style={{ color: "var(--primary)", fontWeight: 500, fontSize: 13, margin: "4px 0 0 0" }}>
-                {profile.designation || "Designation not set"}
-              </p>
-              <p style={{ color: "var(--text-secondary)", margin: "4px 0 0 0" }}>
-                {profile.specialization || "Specialization not set"}
-              </p>
-              <p style={{ color: "var(--text-muted)", fontSize: 13, margin: "4px 0 0 0" }}>
-                {profile.email}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Danger Zone */}
-      <div className="card" style={{ maxWidth: 600, marginTop: 24, borderColor: "var(--danger)" }}>
-        <div className="card-header" style={{ background: "var(--danger-bg)" }}>
-          <h3 className="card-title" style={{ color: "var(--danger)" }}>Danger Zone</h3>
+      <div className="card mt-3 border-danger" style={{ maxWidth: 600 }}>
+        <div className="card-header bg-danger bg-opacity-10 border-danger py-2">
+          <h6 className="mb-0 text-danger">Danger Zone</h6>
         </div>
-        <div className="card-body">
-          <p style={{ color: "var(--text-secondary)", fontSize: 14, marginBottom: 16 }}>
+        <div className="card-body p-3">
+          <p className="text-muted mb-2" style={{ fontSize: '0.8rem' }}>
             If you are no longer practicing, you can delete your account. This action is permanent and cannot be undone.
           </p>
           <button
             type="button"
-            className="btn btn-danger"
-            onClick={() => setShowDeleteModal(true)}
+            className="btn btn-danger btn-sm d-flex align-items-center gap-2"
+            onClick={openDeleteModal}
+            style={{ fontSize: '0.8rem' }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="18" height="18">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="16" height="16">
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
             </svg>
             Delete My Account
@@ -383,8 +274,41 @@ function DoctorProfile() {
         </div>
       </div>
 
-      {/* Delete Modal */}
-      <DeleteModal />
+      {/* Delete Confirmation Modal */}
+      <AppModal
+        show={showDeleteModal}
+        title="Delete Account"
+        message="This action cannot be undone. This will permanently delete your account and remove all your data including appointments and availability slots."
+        type="danger"
+        confirmText={deleting ? "Deleting..." : "Delete My Account"}
+        cancelText="Cancel"
+        onConfirm={handleDeleteAccount}
+        onClose={() => setShowDeleteModal(false)}
+        disableConfirm={confirmText !== "DELETE" || deleting}
+      >
+        <div className="mt-3">
+          <div className="text-center mb-3">
+            <div className="bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style={{ width: 64, height: 64 }}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="32" height="32" className="text-danger">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+            <h6 className="fw-bold mb-2">Are you sure?</h6>
+          </div>
+          
+          <label htmlFor="confirmDelete" className="form-label small">
+            Type <strong>DELETE</strong> to confirm
+          </label>
+          <input
+            type="text"
+            id="confirmDelete"
+            className={`form-control ${confirmText === "DELETE" ? 'border-danger' : ''}`}
+            placeholder="Type DELETE"
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+          />
+        </div>
+      </AppModal>
     </div>
   );
 }
