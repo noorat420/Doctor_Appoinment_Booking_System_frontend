@@ -82,22 +82,28 @@ function DoctorProfile() {
 
   const openDeleteModal = () => {
     setConfirmText("");
+    setError("");
     setShowDeleteModal(true);
   };
 
   const handleDeleteAccount = async () => {
-    if (confirmText !== "DELETE") return;
+    if (confirmText !== "DELETE"){
+      setError("Please type DELETE to confirm.");
+      return;
+    }
     
     setDeleting(true);
+    setError("");
     try {
       await deleteDoctorAccount();
       logout();
-      navigate("/login");
-      alert("Your account has been deleted successfully.");
+      navigate("/login", { replace: true });
+      setTimeout(() => {
+        alert("Your account has been deleted successfully.");
+      }, 500);
     } catch (err) {
+      console.error(err);
       setError("Failed to delete account. Please try again.");
-      setShowDeleteModal(false);
-    } finally {
       setDeleting(false);
     }
   };
@@ -283,7 +289,12 @@ function DoctorProfile() {
         confirmText={deleting ? "Deleting..." : "Delete My Account"}
         cancelText="Cancel"
         onConfirm={handleDeleteAccount}
-        onClose={() => setShowDeleteModal(false)}
+        onClose={() => {
+          if (!deleting) {
+            setShowDeleteModal(false);
+            setConfirmText("");
+            setError("");
+          }}}
         disableConfirm={confirmText !== "DELETE" || deleting}
       >
         <div className="mt-3">
