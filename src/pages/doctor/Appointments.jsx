@@ -39,7 +39,7 @@ function DoctorAppointments() {
 
           setModalData({
             title: "Success",
-            message: "Appointment cancelled successfully ✅",
+            message: "Appointment cancelled successfully ",
             type: "success",
             confirmText: "OK",
             onConfirm: () => setShowModal(false),
@@ -100,11 +100,125 @@ function DoctorAppointments() {
         <h1 className="h2 fw-bold mb-1">Appointments</h1>
         <p className="text-muted">Manage your patient appointments</p>
       </div>
+       <div className="row g-3 mb-4">
+        <div className="col-12 col-md-4">
+          <div className="card">
+            <div className="card-body">
+              <div
+                className="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-3"
+                style={{ width: 48, height: 48, color: "#7C3AED" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </div>
+              <h3 className="h2 fw-bold mb-0">{appointments.length}</h3>
+              <p className="text-muted small mb-0">Total Appointments</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-4">
+          <div className="card">
+            <div className="card-body">
+              <div
+                className="d-flex align-items-center justify-content-center bg-success bg-opacity-10 rounded-3 mb-3"
+                style={{ width: 48, height: 48, color: "#10B981" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="h2 fw-bold mb-0">{bookedAppointments.length}</h3>
+              <p className="text-muted small mb-0">Upcoming</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-4">
+          <div className="card">
+            <div className="card-body">
+              <div
+                className="d-flex align-items-center justify-content-center bg-warning bg-opacity-10 rounded-3 mb-3"
+                style={{ width: 48, height: 48, color: "#F59E0B" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="h2 fw-bold mb-0">{pastAppointments.length}</h3>
+              <p className="text-muted small mb-0">Past</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {loading ? (
         <div className="text-center py-5">
           <div className="spinner mx-auto mb-2"></div>
           <p className="text-muted">Loading appointments...</p>
+        </div>
+      ) : appointments.length === 0 ? (
+        <div className="card">
+          <div className="card-body text-center py-5">
+            <div
+              className="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+              style={{ width: 80, height: 80 }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                width="40"
+                height="40"
+                style={{ color: "#7C3AED" }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                />
+              </svg>
+            </div>
+            <h5>No Appointments Yet</h5>
+            <p className="text-muted">Your appointments will appear here once patients book with you.</p>
+          </div>
         </div>
       ) : (
         <>

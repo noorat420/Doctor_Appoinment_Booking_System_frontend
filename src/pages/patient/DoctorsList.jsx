@@ -35,8 +35,6 @@ function DoctorsList() {
     setSlots([]);
     setLoadingSlots(true);
 
-    
-    
     try {
       const data = await getDoctorAvailability(doctor.id);
       setSlots(data || []);
@@ -56,14 +54,35 @@ function DoctorsList() {
     setBookingSlot(slotId);
     try {
       await bookAppointment(slotId);
-      alert("Appointment booked successfully! ✅");
+      
+      setModalData({
+        title: "Success",
+        message: "Appointment booked successfully",
+        type: "success",
+        confirmText: "OK",
+        onConfirm: () => setShowModal(false),
+      });
+      setShowModal(true);
       closeModal();
     } catch (err) {
       if (err.response?.status === 409) {
-        alert("This slot is already booked ❌");
+        setModalData({
+          title: "Error",
+          message: "This slot is already booked ❌",
+          type: "danger",
+          confirmText: "Close",
+          onConfirm: () => setShowModal(false),
+        });
       } else {
-        alert("Booking failed ❌");
+        setModalData({
+          title: "Error",
+          message: "Booking failed ❌",
+          type: "danger",
+          confirmText: "Close",
+          onConfirm: () => setShowModal(false),
+        });
       }
+      setShowModal(true);
     } finally {
       setBookingSlot(null);
     }
@@ -217,6 +236,16 @@ function DoctorsList() {
       )}
 
       <Modal />
+      <AppModal
+        show={showModal}
+        title={modalData.title}
+        message={modalData.message}
+        type={modalData.type}
+        confirmText={modalData.confirmText}
+        cancelText={modalData.cancelText}
+        onConfirm={modalData.onConfirm}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 }

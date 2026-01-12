@@ -38,7 +38,7 @@ function MyAppointments() {
 
           setModalData({
             title: "Success",
-            message: "Appointment cancelled successfully ✅",
+            message: "Appointment cancelled successfully",
             type: "success",
             confirmText: "OK",
             onConfirm: () => setShowModal(false),

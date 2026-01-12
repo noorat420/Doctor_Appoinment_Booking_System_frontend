@@ -97,10 +97,12 @@ function DoctorProfile() {
     try {
       await deleteDoctorAccount();
       logout();
-      navigate("/login", { replace: true });
+      
       setTimeout(() => {
-        alert("Your account has been deleted successfully.");
+        setSuccess("Account deleted successfully.");
       }, 500);
+      navigate("/login");
+
     } catch (err) {
       console.error(err);
       setError("Failed to delete account. Please try again.");
